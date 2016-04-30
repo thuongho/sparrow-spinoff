@@ -11,9 +11,21 @@
     // all image loaded
     preload: function() {
       this.load.image('background', 'assets/images/earth_640x360.jpg');
+      this.load.image('star', 'assets/images/star-small.png');
     },
     create: function() {
-      this.background = this.game.add.sprite(0, 0, 'background') // coords top left, key
+      // create sprite for background
+      this.background = this.game.add.sprite(0, 0, 'background'); // coords top left, key
+
+      // anchor point is top left of sprite by default
+      // world gives the center coords
+      this.star = this.game.add.sprite(this.game.world.centerX, this.game.world.centerY, 'star');
+      // change the anchor point
+      // number proportion to width
+      // 1 is left, 0 is right, first number is x
+      // 0 is down, 1 is up, second number is y
+      // (0.8,0.8) can be replaced with just one number (0.8)
+      this.star.anchor.setTo(0.8);
     },
     update: function() {  // running multple time per sec to get input
 

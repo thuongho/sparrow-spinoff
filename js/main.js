@@ -14,6 +14,13 @@
       this.load.image('star', 'assets/images/star-small.png');
     },
     create: function() {
+      // this.scale is a scale manager
+      // Phaser.ScaleManager.SHOW_ALL - this allows scaling while keeping aspect ratio
+      this.scale.scaleMode = Phaser.ScaleManager.SHOW_ALL;
+
+      this.scale.pageAlignHorizontally = true;
+      this.scale.pageAlignVertically = true;
+
       // create sprite for background
       this.background = this.game.add.sprite(0, 0, 'background'); // coords top left, key
 

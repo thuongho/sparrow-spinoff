@@ -32,10 +32,16 @@
       // 1 is left, 0 is right, first number is x
       // 0 is down, 1 is up, second number is y
       // (0.8,0.8) can be replaced with just one number (0.8)
-      this.star.anchor.setTo(0.8);
+      // use scale.setTo(-1, 1) to flip on x
+      // can reduce the size by half if using .scale.setTo(0.5)
+      // rotation starts from top left, to rotate from center anchor.setTo(0.5)
+      // .angle = -45 45 degree counter
+      this.star.anchor.setTo(0.5);
+
     },
     update: function() {  // running multple time per sec to get input
-
+      // can make star constantly rotate
+      this.star.angle += 0.5;
     }
   };
 

@@ -38,12 +38,23 @@
       // .angle = -45 45 degree counter
       this.star.anchor.setTo(0.5);
 
+      // slider
+      this.slider = this.game.add.graphics(400, 300);
+      this.slider.lineStyle(3, 0XFFFFFFF, 0.5);
+      this.slider.moveTo(0,0);
+      this.slider.lineTo(200,0);
+
+      this.sliderStar = this.game.add.sprite(500, 300, 'star');
+      this.sliderStar.anchor.setTo(0.5);
+      this.sliderStar.scale.setTo(0.2);
+      this.sliderStar.inputEnabled = true;
+      this.sliderStar.input.enableDrag();
       
 
     },
     update: function() {  // running multple time per sec to get input
       // can make star constantly rotate
-      // this.star.angle += 0.5;
+      this.star.angle += 0.5;
     }
   };
 

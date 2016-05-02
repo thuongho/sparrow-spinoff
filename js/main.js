@@ -5,6 +5,12 @@
   // phaser use WebGL or default to canvas if WebGL is not avail
   // Pixi.js does the rendering of the WebGL
   var game = new Phaser.Game(640, 360, Phaser.AUTO); 
+  var velocityText = 0.0;
+  var style = {
+    font: "12px Arial",
+    fill: "#FFFFFF",
+    align: "left"
+  };
 
   // game state
   var GameState = {
@@ -44,12 +50,17 @@
       this.slider.moveTo(0,0);
       this.slider.lineTo(200,0);
 
-      this.sliderStar = this.game.add.sprite(500, 300, 'star');
-      this.sliderStar.anchor.setTo(0.5);
-      this.sliderStar.scale.setTo(0.2);
-      this.sliderStar.inputEnabled = true;
-      this.sliderStar.input.enableDrag();
-      
+      this.sliderStarIcon = this.game.add.sprite(500, 300, 'star');
+      this.sliderStarIcon.anchor.setTo(0.5);
+      this.sliderStarIcon.scale.setTo(0.2);
+      this.sliderStarIcon.inputEnabled = true;
+      this.sliderStarIcon.input.enableDrag();
+
+      // Velocity
+      this.velocityLabel = this.game.add.text(400, 320, "Velocity (km/s)", style);
+      this.velocityInputBox = this.game.add.text(500, 320, velocityText, style);
+
+      // will get back to input box
 
     },
     update: function() {  // running multple time per sec to get input

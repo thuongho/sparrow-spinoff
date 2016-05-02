@@ -26,7 +26,7 @@
 
       // anchor point is top left of sprite by default
       // world gives the center coords
-      this.star = this.game.add.sprite(this.game.world.centerX, this.game.world.centerY, 'star');
+      this.star = this.game.add.sprite(this.game.world.centerX * 0.4, this.game.world.centerY * 0.3, 'star');
       // change the anchor point
       // number proportion to width
       // 1 is left, 0 is right, first number is x
@@ -38,10 +38,12 @@
       // .angle = -45 45 degree counter
       this.star.anchor.setTo(0.5);
 
+      
+
     },
     update: function() {  // running multple time per sec to get input
       // can make star constantly rotate
-      this.star.angle += 0.5;
+      // this.star.angle += 0.5;
     }
   };
 

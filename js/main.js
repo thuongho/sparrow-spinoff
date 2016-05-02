@@ -80,17 +80,32 @@
       // graphics.alpha = 0.2;
 
       this.sliderStarIcon.input.boundsRect = bounds;
+      this.sliderStarIcon.events.onDragStart.add(this.onDragStart, this);
+      this.sliderStarIcon.events.onDragStop.add(this.onDragStop, this);
 
       // Velocity
       this.velocityLabel = this.game.add.text(400, 320, "Velocity (km/s)", style);
+      console.log(this.game);
       this.velocityInputBox = this.game.add.text(500, 320, velocityText, style);
 
-      // will get back to input box
+      // INPUT BOX
 
     },
     update: function() {  // running multple time per sec to get input
       // can make star constantly rotate
       this.star.angle += 0.5;
+      // game.input.onDown.addOnce(updateText, this);
+    },
+    onDragStart: function(sprite, pointer) {
+      // console.log(sprite);
+    },
+    onDragStop: function(sprite, pointer) {
+      // console.log(pointer.x);
+      velocityText = Math.floor(pointer.x - 500);
+      this.velocityInputBox.setText(velocityText);
+    },
+    render: function() {
+
     }
   };
 

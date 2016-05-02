@@ -11,6 +11,7 @@
     fill: "#FFFFFF",
     align: "left"
   };
+  var sliderStarIconBound;
 
   // game state
   var GameState = {
@@ -49,12 +50,36 @@
       this.slider.lineStyle(3, 0XFFFFFFF, 0.5);
       this.slider.moveTo(0,0);
       this.slider.lineTo(200,0);
+      // graphics = this.game.add.graphics(400, 300);
+      // graphics.lineStyle(3, 0XFFFFFFF, 0.5);
+      // graphics.moveTo(0,0);
+      // graphics.lineTo(200,0);
 
       this.sliderStarIcon = this.game.add.sprite(500, 300, 'star');
       this.sliderStarIcon.anchor.setTo(0.5);
       this.sliderStarIcon.scale.setTo(0.2);
       this.sliderStarIcon.inputEnabled = true;
       this.sliderStarIcon.input.enableDrag();
+      console.log(this.sliderStarIcon.height);
+
+      // sliderStarIconBound = new Phaser.Rectangle(400, 300, 200, this.sliderStarIcon.height);
+      // sliderStarIconBound = new Phaser.Rectangle(400, 300, 200, 85);
+      // graphics = this.game.add.graphics(sliderStarIconBound.x, sliderStarIconBound.y);
+      // graphics.beginFill(0XFFFFFFF);
+      // graphics.drawRect(0, 0, sliderStarIconBound.width, sliderStarIconBound.heigth);
+
+      game.stage.backgroundColor = '#2d2d2d';
+
+      // var bounds = new Phaser.Rectangle(400, 260, 250, 85);
+      var bounds = new Phaser.Rectangle(350, 260, 300, this.sliderStarIcon.height);
+
+      //  Create a graphic so you can see the bounds
+      var graphics = game.add.graphics(bounds.x, bounds.y);
+      // graphics.beginFill(0x000077);
+      graphics.drawRect(0, 0, bounds.width, bounds.height);
+      // graphics.alpha = 0.2;
+
+      this.sliderStarIcon.input.boundsRect = bounds;
 
       // Velocity
       this.velocityLabel = this.game.add.text(400, 320, "Velocity (km/s)", style);

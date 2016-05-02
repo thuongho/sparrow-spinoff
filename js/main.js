@@ -6,12 +6,16 @@
   // Pixi.js does the rendering of the WebGL
   var game = new Phaser.Game(640, 360, Phaser.AUTO); 
   var velocityText = 0.0;
+  var velocitySize = 0;
+  var velocityColor = 0;
   var style = {
     font: "12px Arial",
     fill: "#FFFFFF",
     align: "left"
   };
   var sliderStarIconBound;
+  var redShiftText = 'When an object moves away from us, the light is shifted to the red end of the spectrum, as its wavelengths get longer.';
+  var blueShiftText = 'If an object moves closer, the light moves to the blue end of the spectrum, as its wavelengths get shorter.';
 
   // game state
   var GameState = {
@@ -60,7 +64,6 @@
       this.sliderStarIcon.scale.setTo(0.2);
       this.sliderStarIcon.inputEnabled = true;
       this.sliderStarIcon.input.enableDrag();
-      console.log(this.sliderStarIcon.height);
 
       // sliderStarIconBound = new Phaser.Rectangle(400, 300, 200, this.sliderStarIcon.height);
       // sliderStarIconBound = new Phaser.Rectangle(400, 300, 200, 85);
@@ -80,12 +83,10 @@
       // graphics.alpha = 0.2;
 
       this.sliderStarIcon.input.boundsRect = bounds;
-      this.sliderStarIcon.events.onDragStart.add(this.onDragStart, this);
-      this.sliderStarIcon.events.onDragStop.add(this.onDragStop, this);
+      this.sliderStarIcon.events.onDragUpdate.add(this.onDragUpdate, this);
 
       // Velocity
       this.velocityLabel = this.game.add.text(400, 320, "Velocity (km/s)", style);
-      console.log(this.game);
       this.velocityInputBox = this.game.add.text(500, 320, velocityText, style);
 
       // INPUT BOX
@@ -96,13 +97,19 @@
       this.star.angle += 0.5;
       // game.input.onDown.addOnce(updateText, this);
     },
-    onDragStart: function(sprite, pointer) {
-      // console.log(sprite);
-    },
-    onDragStop: function(sprite, pointer) {
-      // console.log(pointer.x);
+    onDragUpdate: function(sprite, pointer) {
       velocityText = Math.floor(pointer.x - 500);
+      velocityText = velocityText > 100 ? 100 : velocityText;
+      velocityText = velocityText < -100 ? -100 : velocityText;
       this.velocityInputBox.setText(velocityText);
+
+      // size
+      // smallest/furthest 0.1 
+      velocitySize = parseFloat((100 + velocityText)/100).toFixed(2);
+      velocitySize = velocitySize < 0.01 ? 0.01 : velocitySize;
+      this.star.scale.setTo(velocitySize);
+
+
     },
     render: function() {
 

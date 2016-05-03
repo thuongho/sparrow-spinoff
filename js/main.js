@@ -18,6 +18,7 @@
   var blueShiftText = 'If an object moves closer, the light moves to the blue end of the spectrum, as its wavelengths get shorter.';
   var hashSliderColorSpectrum = {};
   var hexColor;
+  var colors; 
 
   // game state
   var GameState = {
@@ -26,40 +27,25 @@
       this.load.image('background', 'assets/images/earth_640x360.jpg');
       this.load.image('star', 'assets/images/star-small.png');
 
-      // color blue > exponential > white > log > red
-      // furthest (red - 0xff0000): 16711680
-      // center (white - 0xffffff): 16777215
-      // closest (blue - 0x0000ff): 255
-      var redHex = 'ff0000';
-      var whiteHex = 'ffffff';
-      var blueHex = '0000ff';
-      var redHexConvertedToDecimal = parseInt(redHex,16);  // 16711680
-      var whiteHexConvertedToDecimal = parseInt(whiteHex, 16);  // 16777215;
-      var blueHexConvertedToDecimal = parseInt(blueHex, 16);  // 255;
-      var redMinusBlue = redHexConvertedToDecimal - blueHexConvertedToDecimal;  // 16711425
       
-      // eq: num^200 = redHex - blueHex;
+      var maxRed = 359; // red
+      var minBlue = 180;  // blue
+      var redMinusBlue = maxRed - minBlue;  // 179
       function findBase(num, pow) {
         return Math.pow(num, (1/pow));
       }
 
-      var baseUnit = findBase(redMinusBlue, 200);  // 1.086713512969647 
-      // 1   == 1.086713512969647 + 255 (blue)
-      //     ...
-      // 200 == 16711680 + 255 (red)
+      colors = Phaser.Color.HSVColorWheel();
       
-      var sliderUnits = -100;
-      for (var i = 1; i <= 200; i++) {
-        if (sliderUnits === 0) { 
-          hashSliderColorSpectrum[sliderUnits] = '16777215';
-        }
-        // hexColor = Math.floor(Math.pow(baseUnit,i) + 255).toString(16);
-        // hexColor = Math.floor(Math.pow(baseUnit,i) + 255);
-        hexColor = Math.floor(Math.pow(baseUnit,i) + 255);
-        hashSliderColorSpectrum[sliderUnits] = hexColor;
+      var sliderUnits = -100;  // -100 -> 100
+      var exponentialCounter = findBase(redMinusBlue, 200);  // 1^200
+      for (var i = 1; i <= 200; i++) {  
+        var currentColor = Math.floor(Math.pow(exponentialCounter,i));
+        hashSliderColorSpectrum[sliderUnits] = colors[currentColor + 179].color;
+        currentColor = currentColor < 359 ? currentColor : 359;
         sliderUnits++;
+
       }
-      console.log(hashSliderColorSpectrum);
     },
     create: function() {
       // this.scale is a scale manager
@@ -86,9 +72,11 @@
       // .angle = -45 45 degree counter
       this.star.anchor.setTo(0.5);
       // this.star.tint = 0xff0000;
-      // this.star.tint = 0x0000ff;
-      // this.star.tint = '101';
-      // this.star.tint = '18da61';
+      // this.star.tint = 0XFFFFFFF;
+      // this.star.tint = '11600127';
+      // this.star.tint = '43007'; // 200 light blue
+
+      // this.star.tint = 64767;  // 180 light teal
 
       // slider
       this.slider = this.game.add.graphics(400, 300);
@@ -155,7 +143,7 @@
     },
     onDragStop: function(sprite, pointer) {
       // COLOR
-      this.star.tint = hashSliderColorSpectrum[velocityText].toString(16);
+      this.star.tint = hashSliderColorSpectrum[velocityText];
       console.log(hashSliderColorSpectrum[velocityText]);
       // console.log(hashSliderColorSpectrum[velocityText].toString(16));
     },

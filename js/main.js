@@ -16,6 +16,8 @@
   var sliderStarIconBound;
   var redShiftText = 'When an object moves away from us, the light is shifted to the red end of the spectrum, as its wavelengths get longer.';
   var blueShiftText = 'If an object moves closer, the light moves to the blue end of the spectrum, as its wavelengths get shorter.';
+  var hashSliderColorSpectrum = {};
+  var hexColor;
 
   // game state
   var GameState = {
@@ -23,6 +25,41 @@
     preload: function() {
       this.load.image('background', 'assets/images/earth_640x360.jpg');
       this.load.image('star', 'assets/images/star-small.png');
+
+      // color blue > exponential > white > log > red
+      // furthest (red - 0xff0000): 16711680
+      // center (white - 0xffffff): 16777215
+      // closest (blue - 0x0000ff): 255
+      var redHex = 'ff0000';
+      var whiteHex = 'ffffff';
+      var blueHex = '0000ff';
+      var redHexConvertedToDecimal = parseInt(redHex,16);  // 16711680
+      var whiteHexConvertedToDecimal = parseInt(whiteHex, 16);  // 16777215;
+      var blueHexConvertedToDecimal = parseInt(blueHex, 16);  // 255;
+      var redMinusBlue = redHexConvertedToDecimal - blueHexConvertedToDecimal;  // 16711425
+      
+      // eq: num^200 = redHex - blueHex;
+      function findBase(num, pow) {
+        return Math.pow(num, (1/pow));
+      }
+
+      var baseUnit = findBase(redMinusBlue, 200);  // 1.086713512969647 
+      // 1   == 1.086713512969647 + 255 (blue)
+      //     ...
+      // 200 == 16711680 + 255 (red)
+      
+      var sliderUnits = -100;
+      for (var i = 1; i <= 200; i++) {
+        if (sliderUnits === 0) { 
+          hashSliderColorSpectrum[sliderUnits] = '16777215';
+        }
+        // hexColor = Math.floor(Math.pow(baseUnit,i) + 255).toString(16);
+        // hexColor = Math.floor(Math.pow(baseUnit,i) + 255);
+        hexColor = Math.floor(Math.pow(baseUnit,i) + 255);
+        hashSliderColorSpectrum[sliderUnits] = hexColor;
+        sliderUnits++;
+      }
+      console.log(hashSliderColorSpectrum);
     },
     create: function() {
       // this.scale is a scale manager
@@ -48,6 +85,10 @@
       // rotation starts from top left, to rotate from center anchor.setTo(0.5)
       // .angle = -45 45 degree counter
       this.star.anchor.setTo(0.5);
+      // this.star.tint = 0xff0000;
+      // this.star.tint = 0x0000ff;
+      // this.star.tint = '101';
+      // this.star.tint = '18da61';
 
       // slider
       this.slider = this.game.add.graphics(400, 300);
@@ -84,6 +125,7 @@
 
       this.sliderStarIcon.input.boundsRect = bounds;
       this.sliderStarIcon.events.onDragUpdate.add(this.onDragUpdate, this);
+      this.sliderStarIcon.events.onDragStop.add(this.onDragStop, this);
 
       // Velocity
       this.velocityLabel = this.game.add.text(400, 320, "Velocity (km/s)", style);
@@ -105,11 +147,17 @@
 
       // size
       // smallest/furthest 0.1 
-      velocitySize = parseFloat((100 + velocityText)/100).toFixed(2);
+      velocitySize = parseFloat((100 + (-velocityText))/100).toFixed(2);
       velocitySize = velocitySize < 0.01 ? 0.01 : velocitySize;
       this.star.scale.setTo(velocitySize);
 
 
+    },
+    onDragStop: function(sprite, pointer) {
+      // COLOR
+      this.star.tint = hashSliderColorSpectrum[velocityText].toString(16);
+      console.log(hashSliderColorSpectrum[velocityText]);
+      // console.log(hashSliderColorSpectrum[velocityText].toString(16));
     },
     render: function() {
 

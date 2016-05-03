@@ -28,6 +28,7 @@
   var colors;
   var educationalMessage; 
   var text;
+  var sliderX = 280;
 
   // game state
   var GameState = {
@@ -55,6 +56,19 @@
         sliderUnits++;
 
       }
+
+      // NUMBER KEYS
+      this.oneKey = game.input.keyboard.addKey(Phaser.Keyboard.ONE);
+      this.twoKey = game.input.keyboard.addKey(Phaser.Keyboard.TWO);
+      this.threeKey = game.input.keyboard.addKey(Phaser.Keyboard.THREE);
+      this.fourKey = game.input.keyboard.addKey(Phaser.Keyboard.FOUR);
+      this.fiveKey = game.input.keyboard.addKey(Phaser.Keyboard.FIVE);
+      this.sixKey = game.input.keyboard.addKey(Phaser.Keyboard.SIX);
+      this.sevenKey = game.input.keyboard.addKey(Phaser.Keyboard.SEVEN);
+      this.eightKey = game.input.keyboard.addKey(Phaser.Keyboard.EIGHT);
+      this.nineKey = game.input.keyboard.addKey(Phaser.Keyboard.NINE);
+      this.zeroKey = game.input.keyboard.addKey(Phaser.Keyboard.ZERO);
+      this.enterKey = game.input.keyboard.addKey(Phaser.Keyboard.ENTER);
     },
     create: function() {
       // this.scale is a scale manager
@@ -80,24 +94,14 @@
       // rotation starts from top left, to rotate from center anchor.setTo(0.5)
       // .angle = -45 45 degree counter
       this.star.anchor.setTo(0.5);
-      // this.star.tint = 0xff0000;
-      // this.star.tint = 0XFFFFFFF;
-      // this.star.tint = '11600127';
-      // this.star.tint = '43007'; // 200 light blue
 
-      // this.star.tint = 64767;  // 180 light teal
-
-      // slider
-      this.slider = this.game.add.graphics(400, 300);
+      // SLIDER
+      this.slider = this.game.add.graphics(400, sliderX); //300
       this.slider.lineStyle(3, 0XFFFFFFF, 0.5);
       this.slider.moveTo(0,0);
       this.slider.lineTo(200,0);
-      // graphics = this.game.add.graphics(400, 300);
-      // graphics.lineStyle(3, 0XFFFFFFF, 0.5);
-      // graphics.moveTo(0,0);
-      // graphics.lineTo(200,0);
 
-      this.sliderStarIcon = this.game.add.sprite(500, 300, 'star');
+      this.sliderStarIcon = this.game.add.sprite(500, sliderX, 'star');
       this.sliderStarIcon.anchor.setTo(0.5);
       this.sliderStarIcon.scale.setTo(0.2);
       this.sliderStarIcon.inputEnabled = true;
@@ -109,10 +113,10 @@
       // graphics.beginFill(0XFFFFFFF);
       // graphics.drawRect(0, 0, sliderStarIconBound.width, sliderStarIconBound.heigth);
 
-      game.stage.backgroundColor = '#2d2d2d';
+      // game.stage.backgroundColor = '#2d2d2d';
 
       // var bounds = new Phaser.Rectangle(400, 260, 250, 85);
-      var bounds = new Phaser.Rectangle(350, 260, 300, this.sliderStarIcon.height);
+      var bounds = new Phaser.Rectangle(350, 240, 300, this.sliderStarIcon.height);
 
       //  Create a graphic so you can see the bounds
       var graphics = game.add.graphics(bounds.x, bounds.y);
@@ -124,21 +128,31 @@
       this.sliderStarIcon.events.onDragUpdate.add(this.onDragUpdate, this);
       this.sliderStarIcon.events.onDragStop.add(this.onDragStop, this);
 
-      // Velocity
-      this.velocityLabel = this.game.add.text(400, 320, "Velocity (km/s)", style);
-      this.velocityInputBox = this.game.add.text(500, 320, velocityText, style);
-
-      // Redshift vs Blueshift
-      educationalMessage = this.game.add.text(400, 150, text, style2);
+      // BLUESHIFT / REDSHIFT
+      educationalMessage = this.game.add.text(385, 150, text, style2);
       educationalMessage.setTextBounds(16, 16, 200, 200);
 
-      // INPUT BOX
+      // INPUT BOX HACK
+      var inputBounds = new Phaser.Rectangle(490, 318, 50, 18);
+      this.inputVelocityBox = this.game.add.graphics(inputBounds.x, inputBounds.y);
+      this.inputVelocityBox.beginFill(0xd3e2ef);
+      this.inputVelocityBox.drawRect(0, 0, inputBounds.width, inputBounds.height);
+      this.inputVelocityBox.alpha = 0.5;
+      this.inputVelocityBox.inputEnabled = true;
+      // this.inputVelocityBox.events.
+      
+
+      // VELOCITY
+      this.velocityLabel = this.game.add.text(400, 320, "Velocity (km/s)", style);
+      this.velocityInputBox = this.game.add.text(500, 320, velocityText, style);
 
     },
     update: function() {  // running multple time per sec to get input
       // can make star constantly rotate
       this.star.angle += 0.5;
       // game.input.onDown.addOnce(updateText, this);
+
+
     },
     onDragUpdate: function(sprite, pointer) {
       velocityText = Math.floor(pointer.x - 500);
@@ -162,6 +176,41 @@
       educationalMessage.setText(text);
 
 
+    },
+    updateVelocity: function() {
+      if (this.oneKey.isDown) {
+        console.log(Phaser.Keyboard.ENTER);
+      }
+      if (this.twoKey.isDown) {
+        console.log(Phaser.Keyboard.ENTER);
+      }
+      if (this.threeKey.isDown) {
+        console.log(Phaser.Keyboard.ENTER);
+      }
+      if (this.fourKey.isDown) {
+        console.log(Phaser.Keyboard.ENTER);
+      }
+      if (this.fiveKey.isDown) {
+        console.log(Phaser.Keyboard.ENTER);
+      }
+      if (this.sixKey.isDown) {
+        console.log(Phaser.Keyboard.ENTER);
+      }
+      if (this.sevenKey.isDown) {
+        console.log(Phaser.Keyboard.ENTER);
+      }
+      if (this.eightKey.isDown) {
+        console.log(Phaser.Keyboard.ENTER);
+      }
+      if (this.nineKey.isDown) {
+        console.log(Phaser.Keyboard.ENTER);
+      }
+      if (this.zeroKey.isDown) {
+        console.log(Phaser.Keyboard.ENTER);
+      }
+      if (this.enterKey.isDown) {
+        console.log(Phaser.Keyboard.ENTER);
+      }
     },
     render: function() {
 

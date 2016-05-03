@@ -13,6 +13,11 @@
     fill: "#FFFFFF",
     align: "left"
   };
+  var style1 = {
+    font: "12px Arial",
+    fill: "#000000",
+    align: "left"
+  };
   var style2 = {
     font: "12px Arial",
     fill: "#FFFFFF",
@@ -58,17 +63,18 @@
       }
 
       // NUMBER KEYS
-      this.oneKey = game.input.keyboard.addKey(Phaser.Keyboard.ONE);
-      this.twoKey = game.input.keyboard.addKey(Phaser.Keyboard.TWO);
-      this.threeKey = game.input.keyboard.addKey(Phaser.Keyboard.THREE);
-      this.fourKey = game.input.keyboard.addKey(Phaser.Keyboard.FOUR);
-      this.fiveKey = game.input.keyboard.addKey(Phaser.Keyboard.FIVE);
-      this.sixKey = game.input.keyboard.addKey(Phaser.Keyboard.SIX);
-      this.sevenKey = game.input.keyboard.addKey(Phaser.Keyboard.SEVEN);
-      this.eightKey = game.input.keyboard.addKey(Phaser.Keyboard.EIGHT);
-      this.nineKey = game.input.keyboard.addKey(Phaser.Keyboard.NINE);
-      this.zeroKey = game.input.keyboard.addKey(Phaser.Keyboard.ZERO);
-      this.enterKey = game.input.keyboard.addKey(Phaser.Keyboard.ENTER);
+      this.game.add.plugin(Fabrique.Plugins.InputField);
+      // this.oneKey = game.input.keyboard.addKey(Phaser.Keyboard.ONE);
+      // this.twoKey = game.input.keyboard.addKey(Phaser.Keyboard.TWO);
+      // this.threeKey = game.input.keyboard.addKey(Phaser.Keyboard.THREE);
+      // this.fourKey = game.input.keyboard.addKey(Phaser.Keyboard.FOUR);
+      // this.fiveKey = game.input.keyboard.addKey(Phaser.Keyboard.FIVE);
+      // this.sixKey = game.input.keyboard.addKey(Phaser.Keyboard.SIX);
+      // this.sevenKey = game.input.keyboard.addKey(Phaser.Keyboard.SEVEN);
+      // this.eightKey = game.input.keyboard.addKey(Phaser.Keyboard.EIGHT);
+      // this.nineKey = game.input.keyboard.addKey(Phaser.Keyboard.NINE);
+      // this.zeroKey = game.input.keyboard.addKey(Phaser.Keyboard.ZERO);
+      // this.enterKey = game.input.keyboard.addKey(Phaser.Keyboard.ENTER);
     },
     create: function() {
       // this.scale is a scale manager
@@ -133,18 +139,37 @@
       educationalMessage.setTextBounds(16, 16, 200, 200);
 
       // INPUT BOX HACK
-      var inputBounds = new Phaser.Rectangle(490, 318, 50, 18);
-      this.inputVelocityBox = this.game.add.graphics(inputBounds.x, inputBounds.y);
-      this.inputVelocityBox.beginFill(0xd3e2ef);
-      this.inputVelocityBox.drawRect(0, 0, inputBounds.width, inputBounds.height);
-      this.inputVelocityBox.alpha = 0.5;
-      this.inputVelocityBox.inputEnabled = true;
+      // var inputBounds = new Phaser.Rectangle(490, 318, 50, 18);
+      // this.inputVelocityBox = this.game.add.graphics(inputBounds.x, inputBounds.y);
+      // this.inputVelocityBox.beginFill(0xd3e2ef);
+      // this.inputVelocityBox.drawRect(0, 0, inputBounds.width, inputBounds.height);
+      // this.inputVelocityBox.alpha = 0.5;
+      // this.inputVelocityBox.inputEnabled = true;
       // this.inputVelocityBox.events.
+      this.input = game.add.inputField(490, 318, {
+        font: '12px Arial',
+          fill: '#212121',
+          height: 10,
+          width: 50,
+          padding: 3,
+          borderWidth: 1,
+          borderColor: '#000',
+          borderRadius: 6,
+          placeHolder: velocityText,
+          type: 'numeric',
+          onkeydown: this.updateVelocity
+      });
+      // input.onEnterbounds(function() {
+      //   console.log('hi');
+      // });
+
+      console.log(this.input);
+      console.log(this.input.domElement.value);
       
 
       // VELOCITY
       this.velocityLabel = this.game.add.text(400, 320, "Velocity (km/s)", style);
-      this.velocityInputBox = this.game.add.text(500, 320, velocityText, style);
+      this.velocityInputBox = this.game.add.text(500, 320, velocityText, style1);
 
     },
     update: function() {  // running multple time per sec to get input
@@ -174,43 +199,46 @@
     
       text = velocityText >= 0 ? redShiftText : blueShiftText;
       educationalMessage.setText(text);
-
+      this.input.domElement.value = velocityText;
+      console.log(this.input.domElement.value);
 
     },
     updateVelocity: function() {
-      if (this.oneKey.isDown) {
-        console.log(Phaser.Keyboard.ENTER);
-      }
-      if (this.twoKey.isDown) {
-        console.log(Phaser.Keyboard.ENTER);
-      }
-      if (this.threeKey.isDown) {
-        console.log(Phaser.Keyboard.ENTER);
-      }
-      if (this.fourKey.isDown) {
-        console.log(Phaser.Keyboard.ENTER);
-      }
-      if (this.fiveKey.isDown) {
-        console.log(Phaser.Keyboard.ENTER);
-      }
-      if (this.sixKey.isDown) {
-        console.log(Phaser.Keyboard.ENTER);
-      }
-      if (this.sevenKey.isDown) {
-        console.log(Phaser.Keyboard.ENTER);
-      }
-      if (this.eightKey.isDown) {
-        console.log(Phaser.Keyboard.ENTER);
-      }
-      if (this.nineKey.isDown) {
-        console.log(Phaser.Keyboard.ENTER);
-      }
-      if (this.zeroKey.isDown) {
-        console.log(Phaser.Keyboard.ENTER);
-      }
-      if (this.enterKey.isDown) {
-        console.log(Phaser.Keyboard.ENTER);
-      }
+      // if (this.oneKey.isDown) {
+      //   console.log(Phaser.Keyboard.ENTER);
+      // }
+      // if (this.twoKey.isDown) {
+      //   console.log(Phaser.Keyboard.ENTER);
+      // }
+      // if (this.threeKey.isDown) {
+      //   console.log(Phaser.Keyboard.ENTER);
+      // }
+      // if (this.fourKey.isDown) {
+      //   console.log(Phaser.Keyboard.ENTER);
+      // }
+      // if (this.fiveKey.isDown) {
+      //   console.log(Phaser.Keyboard.ENTER);
+      // }
+      // if (this.sixKey.isDown) {
+      //   console.log(Phaser.Keyboard.ENTER);
+      // }
+      // if (this.sevenKey.isDown) {
+      //   console.log(Phaser.Keyboard.ENTER);
+      // }
+      // if (this.eightKey.isDown) {
+      //   console.log(Phaser.Keyboard.ENTER);
+      // }
+      // if (this.nineKey.isDown) {
+      //   console.log(Phaser.Keyboard.ENTER);
+      // }
+      // if (this.zeroKey.isDown) {
+      //   console.log(Phaser.Keyboard.ENTER);
+      // }
+      // if (this.enterKey.isDown) {
+      //   console.log(Phaser.Keyboard.ENTER);
+      // }
+      velocityText = 0;
+      console.log(velocityText);
     },
     render: function() {
 

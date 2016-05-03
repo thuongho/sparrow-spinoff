@@ -13,12 +13,21 @@
     fill: "#FFFFFF",
     align: "left"
   };
+  var style2 = {
+    font: "12px Arial",
+    fill: "#FFFFFF",
+    align: "left",
+    wordWrap: true, 
+    wordWrapWidth: 300
+  };
   var sliderStarIconBound;
   var redShiftText = 'When an object moves away from us, the light is shifted to the red end of the spectrum, as its wavelengths get longer.';
   var blueShiftText = 'If an object moves closer, the light moves to the blue end of the spectrum, as its wavelengths get shorter.';
   var hashSliderColorSpectrum = {};
   var hexColor;
-  var colors; 
+  var colors;
+  var educationalMessage; 
+  var text;
 
   // game state
   var GameState = {
@@ -119,6 +128,10 @@
       this.velocityLabel = this.game.add.text(400, 320, "Velocity (km/s)", style);
       this.velocityInputBox = this.game.add.text(500, 320, velocityText, style);
 
+      // Redshift vs Blueshift
+      educationalMessage = this.game.add.text(400, 150, text, style2);
+      educationalMessage.setTextBounds(16, 16, 200, 200);
+
       // INPUT BOX
 
     },
@@ -144,8 +157,11 @@
     onDragStop: function(sprite, pointer) {
       // COLOR
       this.star.tint = hashSliderColorSpectrum[velocityText];
-      console.log(hashSliderColorSpectrum[velocityText]);
-      // console.log(hashSliderColorSpectrum[velocityText].toString(16));
+    
+      text = velocityText >= 0 ? redShiftText : blueShiftText;
+      educationalMessage.setText(text);
+
+
     },
     render: function() {
 
